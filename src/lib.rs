@@ -1,4 +1,5 @@
 extern crate reqwest;
+extern crate rand;
 
 #[macro_use]
 extern crate serde_derive;
@@ -16,7 +17,9 @@ const APP_INFO: AppInfo = AppInfo {
     author: "Maciej Kula",
 };
 
-mod datasets;
+pub mod datasets;
+pub mod traits;
+pub mod models;
 
 #[cfg(test)]
 mod tests {

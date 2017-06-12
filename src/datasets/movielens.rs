@@ -4,14 +4,29 @@ use std::path::{Path, PathBuf};
 
 use csv;
 
+use traits::{WeightedInteraction, UserID, ItemID};
 use datasets::data::{download, get_data_dir};
 
+
 #[derive(Debug,Deserialize)]
-struct Interaction {
-    user_id: usize,
-    item_d: usize,
+pub struct Interaction {
+    user_id: UserID,
+    item_id: ItemID,
     rating: usize,
     timestamp: usize,
+}
+
+
+impl WeightedInteraction for Interaction {
+    fn get_user_id(&self) -> UserID {
+        self.user_id
+    }
+    fn get_item_id(&self) -> ItemID {
+        self.item_id
+    }
+    fn get_weight(&self) -> f32 {
+        1.0
+    }
 }
 
 
@@ -29,7 +44,6 @@ fn read_movielens_100k(path: &Path) -> Vec<Interaction> {
 
     for result in csv_reader.deserialize() {
         let interaction = result.expect("Unable to deserialize interaction");
-        println!("{:?}", interaction);
         interactions.push(interaction);
     }
 
